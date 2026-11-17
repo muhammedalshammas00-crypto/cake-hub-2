@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Hub | Restaurant & Live Cake | Chakkarakkal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            brand: {
+                                yellow: '#FFDE59',
+                                darkYellow: '#FACC15',
+                                red: '#EF4444',
+                                dark: '#18181B',
+                                cardBg: '#FFFFFF',
+                                darkCard: '#27272A'
+                            }
+                        },
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                            logo: ['Pacifico', 'cursive'],
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #fefce8;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #facc15;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #eab308;
+        }
+        /* Phone Preview Frame Styling (Only active when toggled) */
+        body.phone-preview-mode {
+            background: #18181b !important;
+            padding: 2rem 1rem 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        body.phone-preview-mode #app-viewport {
+            width: 390px;
+            max-width: 100%;
+            height: 812px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border-radius: 2.75rem;
+            border: 12px solid #09090b;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 2px #3f3f46;
+            background: linear-gradient(to bottom right, #fffbeb, #fefce8, #fff7ed);
+            position: relative;
+        }
+        body.phone-preview-mode #app-viewport .lg\:flex,
+        body.phone-preview-mode #app-viewport .lg\:inline-block {
+            display: none !important;
+        }
+        body.phone-preview-mode #app-viewport .grid {
+            grid-template-columns: 1fr !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-amber-50 via-yellow-50/70 to-orange-50 text-slate-800 font-sans antialiased selection:bg-brand-yellow selection:text-slate-900">
+
+    <!-- Floating Editor Preview Toggle (Visible only on Desktop screens while editing/previewing) -->
+    <div id="editor-view-switcher" class="hidden md:flex fixed bottom-5 left-5 z-50 bg-zinc-950/95 backdrop-blur-md text-white p-1.5 rounded-full shadow-2xl border border-zinc-700/80 items-center gap-1">
+        <button id="btn-desktop-view" onclick="setPreviewMode('desktop')" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-yellow text-zinc-900 transition">
+            <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Desktop
+        </button>
+        <button id="btn-phone-view" onclick="setPreviewMode('phone')" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-zinc-300 hover:text-white transition">
+            <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Phone View
+        </button>
+    </div>
+
+    <!-- App Viewport Wrapper -->
+    <div id="app-viewport" class="w-full">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-zinc-950 text-brand-yellow text-xs py-1.5 px-4 text-center font-medium flex items-center justify-center gap-3 tracking-wide border-b border-yellow-500/20">
+        <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-red"></i> Chakkarakkal, Kerala 670613</span>
+        <span class="text-zinc-600">|</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-400"></i> Open Daily: 8:00 AM - 12:00 AM</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-lg shadow-sm border-b border-amber-200/60 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between">
+            
+            <!-- Logo Section -->
+            <a href="#" class="flex items-center gap-3 group">
+                <!-- SVG Recreation of Cake Hub Logo -->
+                <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-brand-yellow border-2 border-zinc-900 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform overflow-hidden shrink-0">
+                    <svg viewBox="0 0 200 200" class="w-full h-full p-0.5" xmlns="http://www.w3.org/2000/svg">
+                        <path id="curve" d="M 30,100 A 70,70 0 1,1 170,100" fill="transparent"/>
+                        <text font-size="12" font-weight="bold" fill="#18181B" letter-spacing="1">
+                            <textPath href="#curve" startOffset="50%" text-anchor="middle">.BAKED WITH LOVE.</textPath>
+                        </text>
+                        <text x="100" y="70" font-size="10" font-weight="700" fill="#18181B" text-anchor="middle" letter-spacing="0.5">PREMIUM QUALITY</text>
+                        <text x="95" y="112" font-family="'Pacifico', cursive" font-size="34" fill="#EF4444" text-anchor="middle" transform="rotate(-5, 95, 100)">Cake</text>
+                        <text x="110" y="140" font-family="'Pacifico', cursive" font-size="34" fill="#18181B" text-anchor="middle">Hub</text>
+                        <path d="M140 65 C135 60 150 50 155 58 C160 65 145 70 140 65 Z" fill="#EF4444"/>
+                        <circle cx="147" cy="53" r="4" fill="#EF4444"/>
+                        <path d="M135 68 Q150 68 158 72 Q158 82 135 82 Z" fill="#78350f"/>
+                        <path d="M132 82 Q150 85 162 80 C165 92 130 92 132 82 Z" fill="#451a03"/>
+                        <text x="100" y="172" font-size="10" font-weight="bold" fill="#18181B" text-anchor="middle" letter-spacing="1">LIVE CAKE</text>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl sm:text-2xl font-black font-logo tracking-tight text-zinc-900">Cake <span class="text-brand-red">Hub</span></h1>
+                        <span class="hidden lg:inline-block text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full border border-amber-300">Live Bakery</span>
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium">Cafe & Restaurant • Chakkarakkal</p>
+                </div>
+            </a>
+
+            <!-- Center Quick Nav (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
+                <a href="#menu-container" onclick="filterCategory('all')" class="hover:text-brand-red transition">Full Menu</a>
+                <a href="#menu-container" onclick="filterCategory('pizzas')" class="hover:text-brand-red transition">Pizzas</a>
+                <a href="#menu-container" onclick="filterCategory('burgers')" class="hover:text-brand-red transition">Burgers</a>
+                <a href="#menu-container" onclick="filterCategory('shakes')" class="hover:text-brand-red transition">Shakes</a>
+                <a href="#menu-container" onclick="filterCategory('platters')" class="hover:text-brand-red transition">Platters</a>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <a href="https://wa.me/919876543210?text=Hello%20Cake%20Hub,%20I%20would%20like%20to%20know%20more%20about%20your%20menu!" target="_blank" class="hidden sm:flex items-center gap-1.5 bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 px-3.5 py-2 rounded-full text-xs sm:text-sm font-bold hover:bg-emerald-500 hover:text-white transition">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span>WhatsApp</span>
+                </a>
+                
+                <!-- Cart Button -->
+                <button onclick="toggleCart()" class="relative bg-zinc-900 hover:bg-brand-red text-brand-yellow hover:text-white font-bold px-4 py-2 rounded-full shadow-md flex items-center gap-2 transition active:scale-95">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    <span class="text-xs sm:text-sm">Order Cart</span>
+                    <span id="cart-badge" class="bg-brand-yellow text-zinc-900 text-xs w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center font-black shadow-sm">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="relative bg-gradient-to-br from-zinc-950 via-red-950 to-amber-950 text-white py-14 sm:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden shadow-lg">
+        <!-- Decorative Ambient Glows -->
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-brand-yellow/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-brand-red/25 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#FFDE59_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-flex items-center gap-1.5 bg-brand-yellow/15 text-brand-yellow text-xs uppercase tracking-widest font-bold px-4 py-1.5 rounded-full mb-4 border border-brand-yellow/30 shadow-sm">
+                ✨ Baked With Love • Premium Quality
+            </span>
+            <h2 class="text-3xl sm:text-5xl font-black tracking-tight mb-4 leading-tight">
+                Delicious Moments at <span class="text-brand-yellow drop-shadow">Cake Hub</span>
+            </h2>
+            <p class="text-amber-100/80 text-sm sm:text-base max-w-2xl mx-auto mb-8 font-normal">
+                From wood-fired style pizzas, sizzling platters, and loaded fries to signature Shazzy Shakes & Live Cakes — order straight to your WhatsApp!
+            </p>
+            
+            <!-- Search & Quick Filter Bar -->
+            <div class="max-w-xl mx-auto relative">
+                <i data-lucide="search" class="absolute left-4 top-3.5 w-5 h-5 text-amber-200/70"></i>
+                <input type="text" id="menu-search" oninput="handleSearch(this.value)" placeholder="Search pizzas, burgers, shakes, pastas..." class="w-full pl-12 pr-4 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-amber-300/30 text-white placeholder-amber-100/60 focus:outline-none focus:ring-2 focus:ring-brand-yellow focus:bg-white/15 text-sm shadow-inner transition">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Layout -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Category Navigation Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 custom-scrollbar sticky top-16 sm:top-18 z-30 bg-amber-50/90 py-3 backdrop-blur-md border-b border-amber-200/50" id="category-pills">
+            <button onclick="filterCategory('all')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-slate-900 text-white shadow-sm shrink-0 transition">🍽️ All Items</button>
+            <button onclick="filterCategory('pizzas')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍕 Pizzas</button>
+            <button onclick="filterCategory('special-delicious')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🥞 Crepes</button>
+            <button onclick="filterCategory('pastas')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍝 Pastas</button>
+            <button onclick="filterCategory('quick-bites')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍟 Quick Bites</button>
+            <button onclick="filterCategory('sandwiches')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🥪 Sandwiches</button>
+            <button onclick="filterCategory('burgers')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍔 Burgers</button>
+            <button onclick="filterCategory('crepe-wraps')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🌯 Wraps</button>
+            <button onclick="filterCategory('meals')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍱 Meals</button>
+            <button onclick="filterCategory('platters')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍖 Platters</button>
+            <button onclick="filterCategory('shakes')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🥤 Shazzy Shakes</button>
+            <button onclick="filterCategory('smoothies')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍓 Smoothies</button>
+            <button onclick="filterCategory('ice-cream')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍨 Double Scoops</button>
+            <button onclick="filterCategory('fruit-shakes')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🍹 Fruit Shakes</button>
+            <button onclick="filterCategory('kids')" class="cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition">🎈 Kids Special</button>
+        </div>
+
+        <!-- Menu Container -->
+        <div id="menu-container" class="space-y-12">
+            <!-- Dynamically populated via JS -->
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12 px-4 sm:px-6 lg:px-8 mt-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-brand-yellow flex items-center justify-center font-bold text-slate-900">CH</div>
+                    <h3 class="text-xl font-bold font-logo text-white">Cake Hub</h3>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">
+                    Your favorite destination for freshly baked cakes, pizzas, fast food, and refreshing beverages in Chakkarakkal.
+                </p>
+                <p class="text-xs text-brand-yellow font-medium">📍 Chakkarakkal, Kerala 670613</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#menu-container" onclick="filterCategory('all')" class="hover:text-brand-yellow transition">Full Menu</a></li>
+                    <li><a href="#menu-container" onclick="filterCategory('pizzas')" class="hover:text-brand-yellow transition">Pizzas & Burgers</a></li>
+                    <li><a href="#menu-container" onclick="filterCategory('shakes')" class="hover:text-brand-yellow transition">Shakes & Smoothies</a></li>
+                    <li><a href="#menu-container" onclick="filterCategory('platters')" class="hover:text-brand-yellow transition">Grand Platters</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4">Order & Support</h4>
+                <p class="text-sm text-slate-400 mb-2">Have a custom cake order or party requirement? Reach out on WhatsApp instantly!</p>
+                <a href="https://wa.me/919876543210?text=Hello%20Cake%20Hub,%20I%20have%20an%20inquiry!" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow">
+                    <i data-lucide="message-square" class="w-4 h-4"></i> Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+            &copy; 2026 Cake Hub, Chakkarakkal, Kerala 670613. All rights reserved. Designed professionally for seamless WhatsApp ordering.
+        </div>
+    </footer>
+    </div> <!-- End #app-viewport -->
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                <!-- Drawer Header -->
+                <div class="p-6 bg-slate-900 text-white flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-6 h-6 text-brand-yellow"></i>
+                        <h3 class="text-lg font-bold">Your Order Cart</h3>
+                    </div>
+                    <button onclick="toggleCart()" class="text-slate-400 hover:text-white p-1 rounded-lg transition">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Drawer Body / Items List -->
+                <div class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar" id="cart-items-container">
+                    <!-- Cart items rendered here -->
+                </div>
+
+                <!-- Customer Details Form -->
+                <div class="p-6 bg-slate-50 border-t border-slate-200 space-y-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Delivery & Contact Info</h4>
+                    <div>
+                        <input type="text" id="customer-name" placeholder="Your Full Name *" class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 text-sm focus:ring-2 focus:ring-brand-yellow focus:outline-none">
+                    </div>
+                    <div>
+                        <input type="tel" id="customer-phone" placeholder="WhatsApp Phone Number *" class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 text-sm focus:ring-2 focus:ring-brand-yellow focus:outline-none">
+                    </div>
+                    <div>
+                        <textarea id="customer-address" placeholder="Delivery Address in Chakkarakkal / Landmark *" rows="2" class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 text-sm focus:ring-2 focus:ring-brand-yellow focus:outline-none"></textarea>
+                    </div>
+
+                    <!-- Order Total & Submit -->
+                    <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-500 block">Total Amount</span>
+                            <span id="cart-total-price" class="text-xl font-black text-slate-900">₹0</span>
+                        </div>
+                        <button onclick="submitOrderWhatsApp()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition transform active:scale-95">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                            <span>Send to WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ITEM CUSTOMIZER / SIZE MODAL -->
+    <div id="item-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative overflow-hidden animate-in fade-in zoom-in duration-200">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-full bg-slate-100 transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div id="modal-content">
+                <!-- Dynamic modal content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-zinc-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-brand-yellow/40 flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="w-7 h-7 rounded-full bg-brand-yellow text-zinc-900 flex items-center justify-center shrink-0">
+            <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+        </div>
+        <span id="toast-message" class="text-sm font-semibold">Added to cart!</span>
+    </div>
+
+    <script>
+        // Restaurant WhatsApp Number (Update with actual Cake Hub WhatsApp number)
+        const RESTAURANT_WHATSAPP = "919876543210";
+
+        // Full Menu Data Structure with Unique Product Photography for Every Single Item
+        const menuData = [
+            {
+                id: 'pizzas',
+                title: 'Pizzas',
+                icon: 'pizza',
+                image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
+                description: 'Freshly baked wood-fired style crusts loaded with premium cheese & toppings.',
+                items: [
+                    { name: 'Margherita Pizza', prices: { M: 240, L: 300 }, desc: 'Classic cheese and rich tomato herb sauce.', img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Veggie Delight', prices: { M: 260, L: 320 }, desc: 'Loaded with garden-fresh crisp vegetables.', img: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Italian Job', prices: { M: 280, L: 380 }, desc: 'Special Italian herbs, olives, jalapenos and cheese.', img: 'https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'BBQ Chicken', prices: { M: 290, L: 400 }, desc: 'Tender chicken chunks tossed in smoky BBQ sauce.', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tandoori Chicken Tikka', prices: { M: 270, L: 390 }, desc: 'Spiced tandoori chicken tikka chunks.', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tandoori Paneer', prices: { M: 270, L: 360 }, desc: 'Marinated paneer cubes with tandoori spices.', img: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Pepperoni Pizza', prices: { M: 280, L: 380 }, desc: 'Juicy chicken pepperoni slices over gooey cheese.', img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Beef Pepperoni Pizza', prices: { M: 290, L: 390 }, desc: 'Classic beef pepperoni loaded with extra mozzarella.', img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Quattro Formaggi', prices: { M: 320, L: 450 }, desc: 'Four delicious varieties of fine cheese.', img: 'https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Seafood Pizza', prices: { M: 260, L: 350 }, desc: 'Fresh catch seafood toppings with herbs.', img: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'special-delicious',
+                title: 'Special Delicious (Crepes)',
+                icon: 'sparkles',
+                image: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=600&q=80',
+                description: 'Deliciously crafted sweet and savory crepes.',
+                items: [
+                    { name: 'Chicken Peri Peri', prices: { Regular: 160 }, desc: 'Spicy peri peri chicken wrapped in delicate crepe.', img: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Beef Crepes', prices: { Regular: 180 }, desc: 'Savory minced beef stuffed crepe.', img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Nutella Banana', prices: { Regular: 150 }, desc: 'Sweet crepe filled with rich Nutella and fresh banana slices.', img: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Apple Cinnamon', prices: { Regular: 150 }, desc: 'Warm stewed apple with aromatic cinnamon.', img: 'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mushroom Crepes', prices: { Regular: 179 }, desc: 'Sauteed mushrooms with creamy herb sauce.', img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Special Crepes Chicken', prices: { Regular: 200 }, desc: 'Chef special chicken filling with rich cheese.', img: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Special Crepes Beef', prices: { Regular: 210 }, desc: 'Chef special spiced beef filling.', img: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'pastas',
+                title: 'Pastas',
+                icon: 'utensils',
+                image: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=600&q=80',
+                description: 'Italian pastas cooked to perfection with rich sauces.',
+                items: [
+                    { name: 'Alfredo Pasta', prices: { Regular: 270 }, desc: 'Rich and creamy white sauce pasta with herbs.', img: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Neapolitan', prices: { Regular: 200, Large: 220 }, desc: 'Classic tangy tomato basil Neapolitan pasta.', img: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Creamy Pesto', prices: { Regular: 210, Large: 230 }, desc: 'Fresh basil pesto blended with rich cream.', img: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Seafood Romaria', prices: { Regular: 250 }, desc: 'Delicious seafood pasta in chef special sauce.', img: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Arrabiata', prices: { Regular: 210, Large: 230 }, desc: 'Spicy tomato garlic sauce pasta.', img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'quick-bites',
+                title: 'Quick Bites & Fries',
+                icon: 'flame',
+                image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80',
+                description: 'Crispy starters, loaded fries, and delicious snacks.',
+                items: [
+                    { name: 'Chicken Strips', prices: { Regular: 180 }, desc: 'Crispy fried tender chicken strips.', img: 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Cheese Bowl', prices: { Regular: 160 }, desc: 'Melted cheese over seasoned chicken bites.', img: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mac & Cheese Bowl', prices: { Regular: 150 }, desc: 'Classic comforting cheesy macaroni.', img: 'https://images.unsplash.com/photo-1543339494-b4cd4f7ba686?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Momos', prices: { Regular: 150 }, desc: 'Steamed/fried momos with spicy dip.', img: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Schezwan Chicken Momos', prices: { Regular: 160 }, desc: 'Momos tossed in spicy Schezwan sauce.', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Dynamite Chicken', prices: { Regular: 180 }, desc: 'Crispy chicken coated in signature dynamite sauce.', img: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mexican Chicken Tacos', prices: { Regular: 160 }, desc: 'Crunchy tacos filled with Mexican chicken.', img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mexican Paneer Tacos', prices: { Regular: 150 }, desc: 'Vegetarian tacos with spiced paneer.', img: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'French Fries', prices: { Regular: 80 }, desc: 'Golden crispy salted fries.', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Lemon Chilli Fries', prices: { Regular: 100 }, desc: 'Fries tossed with lemon and chilli spice.', img: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Masala Fries', prices: { Regular: 100 }, desc: 'Indian spiced masala french fries.', img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Cheesy Jalapeno Fries', prices: { Regular: 130 }, desc: 'Fries drenched in liquid cheese and jalapenos.', img: 'https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mexican Chicken Loaded Fries', prices: { Regular: 210 }, desc: 'Fries loaded with Mexican chicken and cheese.', img: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Fried Chicken Loaded Fries', prices: { Regular: 190 }, desc: 'Crispy chicken bits over loaded fries.', img: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Peri Peri Chicken Loaded Fries', prices: { Regular: 190 }, desc: 'Spicy peri peri chicken loaded fries.', img: 'https://images.unsplash.com/photo-1518013431117-eb1465fa5752?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Slice Fries', prices: { Regular: 160 }, desc: 'Thick cut specialty slice fries.', img: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Nuggets', prices: { Regular: 100 }, desc: 'Crispy golden chicken nuggets (6 pcs).', img: 'https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Popcorn', prices: { Regular: 120 }, desc: 'Bite-sized crispy chicken popcorn.', img: 'https://images.unsplash.com/photo-1619881589316-56c7f9e6b587?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Smile', prices: { Regular: 100 }, desc: 'Crispy potato smiley faces.', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'sandwiches',
+                title: 'Sandwiches',
+                icon: 'sandwich',
+                image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80',
+                description: 'Toasted gourmet sandwiches packed with fillings.',
+                items: [
+                    { name: 'BBQ Chicken Cheese', prices: { Regular: 150 }, desc: 'Smoky BBQ chicken with melted cheese.', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Cheesy Chicken', prices: { Regular: 160 }, desc: 'Extra cheesy chicken sandwich.', img: 'https://images.unsplash.com/photo-1553909489-cd47e0907980?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Tikka', prices: { Regular: 140 }, desc: 'Tikka spiced chicken sandwich.', img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Eggceptional Cheese', prices: { Regular: 100 }, desc: 'Egg and cheese classic.', img: 'https://images.unsplash.com/photo-1525351484163-7529414342d8?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Pesto Chicken Cheese', prices: { Regular: 130 }, desc: 'Chicken with fragrant pesto spread.', img: 'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Herbed Mushroom Cheese', prices: { Regular: 140 }, desc: 'Sauteed mushrooms with herbs and cheese.', img: 'https://images.unsplash.com/photo-1481070555726-e2fe8357725c?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Classic Club', prices: { Regular: 200 }, desc: 'Triple layer multi-ingredient club sandwich.', img: 'https://images.unsplash.com/photo-1567234669003-dce7a7a88821?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Zinger Club', prices: { Regular: 190 }, desc: 'Crispy zinger chicken club.', img: 'https://images.unsplash.com/photo-1619096252214-ef06c45683e3?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Veg Sandwich', prices: { Regular: 90 }, desc: 'Fresh veggie loaded sandwich.', img: 'https://images.unsplash.com/photo-1540713434306-58505cf1b6fc?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'burgers',
+                title: 'Burgers',
+                icon: 'burger',
+                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80',
+                description: 'Juicy, stacked burgers with gourmet sauces.',
+                items: [
+                    { name: 'Americano Chicken', prices: { Regular: 180 }, desc: 'Classic American style chicken burger.', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Juicy Lucy Beef', prices: { Regular: 200 }, desc: 'Juicy beef patty stuffed with molten cheese.', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Fried Chicken Cheese', prices: { Regular: 180 }, desc: 'Crunchy fried chicken patty with cheese slice.', img: 'https://images.unsplash.com/photo-1615297928064-24977384d0da?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chipotle Chicken Cheese', prices: { Regular: 150 }, desc: 'Smoky chipotle flavoured chicken burger.', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Crispy Paneer Cheese', prices: { Regular: 140 }, desc: 'Crispy paneer patty with creamy dressing.', img: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Veggie Supreme', prices: { Regular: 120 }, desc: 'Wholesome vegetable patty burger.', img: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Roast Beef', prices: { Regular: 180 }, desc: 'Tender roast beef burger.', img: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'BBQ Beef', prices: { Regular: 180 }, desc: 'Smoky BBQ glazed beef burger.', img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'crepe-wraps',
+                title: 'Crepe Wraps',
+                icon: 'wrap',
+                image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=600&q=80',
+                description: 'Fresh rolls and wraps loaded with fillings.',
+                items: [
+                    { name: 'Lebanese Chicken/Beef', prices: { Chicken: 160, Beef: 180 }, desc: 'Authentic Lebanese spices wrapped nicely.', img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Tikka', prices: { Regular: 160 }, desc: 'Tikka spiced chicken wrap.', img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mexican Chicken', prices: { Regular: 180 }, desc: 'Mexican seasoned chicken wrap.', img: 'https://images.unsplash.com/photo-1641405102586-16de9aed9236?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Cake Hub Special Sea Food', prices: { Regular: 200 }, desc: 'Special seafood wrap.', img: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Veg Wrap', prices: { Regular: 130 }, desc: 'Fresh vegetable wrap with special sauce.', img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'meals',
+                title: 'Combo Meals',
+                icon: 'package',
+                image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=600&q=80',
+                description: 'Complete wholesome meal boxes for individuals and families.',
+                items: [
+                    { name: 'Snacks Meal', prices: { Regular: 199 }, desc: 'Perfect snack combo box.', img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Dinner Meal', prices: { Regular: 399 }, desc: 'Satisfying dinner combo.', img: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Royal Box', prices: { Regular: 599 }, desc: 'Royal assortment of signature delights.', img: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Family Pack', prices: { Regular: 799 }, desc: 'Great value combo for the whole family.', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Cake Hub Delight', prices: { Regular: 1111 }, desc: 'Ultimate feast combo box.', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'platters',
+                title: 'Grand Platters',
+                icon: 'drumstick',
+                image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80',
+                description: 'Massive sharing platters for gatherings and meat lovers.',
+                items: [
+                    { name: 'Tandoori Platter (Single)', prices: { Regular: 1241 }, desc: 'Assorted tandoori specialties.', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tandoori Tikka Platter (Mini)', prices: { Regular: 799 }, desc: 'Mini tandoori tikka platter.', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tandoori Platter (Full)', prices: { Regular: 1241 }, desc: 'Full grand tandoori platter.', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Platter', prices: { Regular: 1241 }, desc: 'Assorted chicken preparations platter.', img: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chicken Tikka Platter', prices: { Regular: 1241 }, desc: 'Various chicken tikka varieties.', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tandoori Non-Veg Platter', prices: { Regular: 1999 }, desc: 'Ultimate non-veg tandoori feast.', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mixed Tikka Platter', prices: { Regular: 1999 }, desc: 'Assorted chicken and paneer tikka platter.', img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Alfaham Platter', prices: { Regular: 1244 }, desc: 'Delicious Alfaham chicken platter.', img: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mini Platter', prices: { Regular: 799 }, desc: 'Compact sharing platter.', img: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'shakes',
+                title: 'Shazzy Shakes',
+                icon: 'cup-soda',
+                image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80',
+                description: 'Thick, creamy milkshakes blended to perfection.',
+                items: [
+                    { name: 'Vanilla', prices: { Regular: 140 }, desc: 'Classic creamy vanilla shake.', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80' },
+                    { name: "Pink N'Pink", prices: { Regular: 150 }, desc: 'Special pink strawberry shake.', img: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Choco Lover', prices: { Regular: 160 }, desc: 'Rich chocolate blended shake.', img: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Green Channel', prices: { Regular: 110 }, desc: 'Refreshing green specialty shake.', img: 'https://images.unsplash.com/photo-1610970881699-44a5587cabec?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tangy Mangy', prices: { Regular: 150 }, desc: 'Mango flavored shake.', img: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Spanish Valley', prices: { Regular: 140 }, desc: 'Spanish delight shake.', img: 'https://images.unsplash.com/photo-1553787499-6f9133860278?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Cold Coffee', prices: { Regular: 130 }, desc: 'Chilled refreshing cold coffee.', img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Cram Berry', prices: { Regular: 130 }, desc: 'Berry flavored shake.', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tender Shake', prices: { Regular: 130 }, desc: 'Tender coconut rich shake.', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tropins', prices: { Regular: 130 }, desc: 'Tropical fruit shake.', img: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Sitafal', prices: { Regular: 130 }, desc: 'Custard apple shake.', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'smoothies',
+                title: 'Smoothies',
+                icon: 'blender',
+                image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=600&q=80',
+                description: 'Healthy fruit smoothies made with fresh ingredients.',
+                items: [
+                    { name: 'Banana', prices: { Regular: 110 }, desc: 'Fresh banana smoothie.', img: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'A.M. Delight', prices: { Regular: 110 }, desc: 'Morning energy booster smoothie.', img: 'https://images.unsplash.com/photo-1610970881699-44a5587cabec?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Papaya', prices: { Regular: 110 }, desc: 'Smooth papaya blend.', img: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chocolate Banana', prices: { Regular: 120 }, desc: 'Chocolate and banana smoothie.', img: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Strawberry', prices: { Regular: 120 }, desc: 'Fresh strawberry smoothie.', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Dry Fruit', prices: { Regular: 150 }, desc: 'Nutritious dry fruit smoothie.', img: 'https://images.unsplash.com/photo-1553787499-6f9133860278?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mango Banana Smoothie', prices: { Regular: 120 }, desc: 'Mango and banana combo.', img: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Avocado Smoothie', prices: { Regular: 130 }, desc: 'Creamy avocado smoothie.', img: 'https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'ice-cream',
+                title: 'Double Scoops Ice Cream',
+                icon: 'ice-cream-2',
+                image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?auto=format&fit=crop&w=600&q=80',
+                description: 'Delicious double scoop ice creams with dual pricing.',
+                items: [
+                    { name: 'Vanilla', prices: { Regular: 40, Large: 80 }, desc: 'Double scoop vanilla.', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Strawberry', prices: { Regular: 40, Large: 80 }, desc: 'Double scoop strawberry.', img: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Orange', prices: { Regular: 40, Large: 80 }, desc: 'Double scoop orange.', img: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Black Currant', prices: { Regular: 50, Large: 100 }, desc: 'Double scoop black currant.', img: 'https://images.unsplash.com/photo-1560008581-09826d1de69e?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mango', prices: { Regular: 50, Large: 100 }, desc: 'Double scoop mango.', img: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Pineapple', prices: { Regular: 50, Large: 100 }, desc: 'Double scoop pineapple.', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chocolate', prices: { Regular: 50, Large: 100 }, desc: 'Double scoop chocolate.', img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Butterscotch', prices: { Regular: 50, Large: 100 }, desc: 'Double scoop butterscotch.', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Pista', prices: { Regular: 50, Large: 110 }, desc: 'Double scoop pistachio.', img: 'https://images.unsplash.com/photo-1560008581-09826d1de69e?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Kulfi', prices: { Regular: 50, Large: 110 }, desc: 'Traditional kulfi double scoop.', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Fig & Honey', prices: { Regular: 50, Large: 110 }, desc: 'Fig and honey double scoop.', img: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Spanish Delight', prices: { Regular: 50, Large: 110 }, desc: 'Spanish delight double scoop.', img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Tender Coconut', prices: { Regular: 50, Large: 120 }, desc: 'Tender coconut double scoop.', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Sitafal', prices: { Regular: 60, Large: 120 }, desc: 'Sitafal ice cream double scoop.', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Coffee', prices: { Regular: 50, Large: 100 }, desc: 'Coffee flavored double scoop.', img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chikku', prices: { Regular: 60, Large: 110 }, desc: 'Chikku double scoop.', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'fruit-shakes',
+                title: 'Fruit Shakes',
+                icon: 'glass-water',
+                image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=600&q=80',
+                description: 'Refreshing fruit shakes and Sharjah specials.',
+                items: [
+                    { name: 'Chocolate Sharjah', prices: { Regular: 70, Large: 80 }, desc: 'Chocolate infused Sharjah shake.', img: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Sharjah', prices: { Regular: 60, Large: 80 }, desc: 'Classic Kerala Sharjah shake.', img: 'https://images.unsplash.com/photo-1553787499-6f9133860278?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Chikku', prices: { Regular: 60, Large: 80 }, desc: 'Chikku fruit shake.', img: 'https://images.unsplash.com/photo-1553787499-6f9133860278?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Mango', prices: { Regular: 70, Large: 80 }, desc: 'Fresh mango shake.', img: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Apple', prices: { Regular: 70, Large: 90 }, desc: 'Fresh apple shake.', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Saudi', prices: { Regular: 80, Large: 100 }, desc: 'Special Saudi fruit drink.', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Shamam', prices: { Regular: 70, Large: 100 }, desc: 'Muskmelon (Shamam) shake.', img: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Papaya', prices: { Regular: 70, Large: 90 }, desc: 'Papaya fruit shake.', img: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Dragon Fruit', prices: { Regular: 80, Large: 100 }, desc: 'Exotic dragon fruit shake.', img: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Strawberry', prices: { Regular: 80, Large: 100 }, desc: 'Strawberry fruit shake.', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Plum', prices: { Regular: 80, Large: 110 }, desc: 'Plum fruit shake.', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Blueberry', prices: { Regular: 90, Large: 110 }, desc: 'Blueberry fruit shake.', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Black Currant', prices: { Regular: 90, Large: 90 }, desc: 'Black currant shake.', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80' }
+                ]
+            },
+            {
+                id: 'kids',
+                title: 'Funny Face (Only for Kids)',
+                icon: 'smile',
+                image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80',
+                description: 'Specially crafted treats for our young guests.',
+                items: [
+                    { name: 'Artic Fun', prices: { Regular: 120 }, desc: 'Fun kid-friendly icy treat.', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80' },
+                    { name: 'Kool Koala', prices: { Regular: 120 }, desc: 'Delightful koala themed kids treat.', img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=500&q=80' }
+                ]
+            }
+        ];
+
+        // Cart State
+        let cart = [];
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // Toggle Desktop / Phone Preview Mode (For Editing/Reviewing)
+        function setPreviewMode(mode) {
+            const body = document.body;
+            const btnDesktop = document.getElementById('btn-desktop-view');
+            const btnPhone = document.getElementById('btn-phone-view');
+            const viewport = document.getElementById('app-viewport');
+
+            if (mode === 'phone') {
+                body.classList.add('phone-preview-mode');
+                viewport.classList.add('custom-scrollbar');
+                btnPhone.classList.add('bg-brand-yellow', 'text-zinc-900');
+                btnPhone.classList.remove('text-zinc-300');
+                btnDesktop.classList.remove('bg-brand-yellow', 'text-zinc-900');
+                btnDesktop.classList.add('text-zinc-300');
+                showToast('Phone View Enabled (390px Mobile Frame)');
+            } else {
+                body.classList.remove('phone-preview-mode');
+                viewport.classList.remove('custom-scrollbar');
+                btnDesktop.classList.add('bg-brand-yellow', 'text-zinc-900');
+                btnDesktop.classList.remove('text-zinc-300');
+                btnPhone.classList.remove('bg-brand-yellow', 'text-zinc-900');
+                btnPhone.classList.add('text-zinc-300');
+                showToast('Desktop View Enabled');
+            }
+        }
+
+        // Safe icon initializer
+        function refreshIcons() {
+            try {
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            } catch (e) {
+                console.warn('Lucide icons skipped:', e);
+            }
+        }
+
+        // Initialize App on load
+        window.onload = function() {
+            renderMenu();
+            updateCartBadge();
+            refreshIcons();
+        };
+
+        // Toast Notification Helper
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            if (!toast || !toastMsg) return;
+            toastMsg.textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 2500);
+        }
+
+        // Render Menu Items Based on Category & Search
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+
+            let hasResults = false;
+
+            menuData.forEach(category => {
+                if (currentFilter !== 'all' && category.id !== currentFilter) return;
+
+                const filteredItems = category.items.filter(item =>
+                    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (item.desc && item.desc.toLowerCase().includes(searchQuery.toLowerCase()))
+                );
+
+                if (filteredItems.length === 0) return;
+                hasResults = true;
+
+                const section = document.createElement('section');
+                section.id = `cat-${category.id}`;
+                section.className = 'scroll-mt-32';
+
+                let cardsHTML = '';
+                filteredItems.forEach((item) => {
+                    const priceKeys = Object.keys(item.prices);
+                    const hasMultipleSizes = priceKeys.length > 1;
+                    const defaultPrice = item.prices[priceKeys[0]];
+                    const priceDisplay = hasMultipleSizes
+                        ? priceKeys.map(k => `<span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold">${k}: ₹${item.prices[k]}</span>`).join(' ')
+                        : `<span class="text-lg font-black text-zinc-900">₹${defaultPrice}</span>`;
+
+                    const safeName = item.name.replace(/'/g, "\\'");
+                    const itemImg = item.img || category.image;
+                    const fallbackImg = `https://placehold.co/400x300/FFDE59/18181B?text=${encodeURIComponent(item.name)}`;
+
+                    cardsHTML += `
+                        <div class="bg-white rounded-2xl border border-amber-200/70 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+                            <div>
+                                <div class="relative h-44 w-full overflow-hidden bg-amber-100">
+                                    <img src="${itemImg}" onerror="this.onerror=null;this.src='${fallbackImg}';" alt="${item.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></div>
+                                    ${hasMultipleSizes ? `<span class="absolute top-2.5 right-2.5 bg-zinc-900/90 text-brand-yellow text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow">Options</span>` : ''}
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="font-bold text-zinc-900 text-base group-hover:text-brand-red transition">${item.name}</h4>
+                                    <p class="text-xs text-slate-500 mt-1 line-clamp-2">${item.desc || ''}</p>
+                                </div>
+                            </div>
+                            <div class="px-4 pb-4 pt-2 border-t border-amber-100/80 flex items-center justify-between gap-2">
+                                <div class="flex flex-wrap gap-1 items-center">
+                                    ${priceDisplay}
+                                </div>
+                                <button onclick="handleItemAction('${category.id}', '${safeName}')" class="bg-brand-yellow hover:bg-zinc-900 text-zinc-900 hover:text-brand-yellow font-bold text-xs px-3.5 py-2 rounded-xl shadow-sm transition flex items-center gap-1 shrink-0 active:scale-95">
+                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                section.innerHTML = `
+                    <div class="relative rounded-2xl overflow-hidden mb-5 bg-zinc-900 text-white shadow-md">
+                        <img src="${category.image}" onerror="this.style.display='none'" alt="${category.title}" class="absolute inset-0 w-full h-full object-cover opacity-35">
+                        <div class="relative z-10 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-gradient-to-r from-zinc-950/90 via-zinc-900/75 to-transparent">
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-black text-brand-yellow tracking-tight">${category.title}</h3>
+                                <p class="text-xs sm:text-sm text-slate-200 mt-0.5">${category.description}</p>
+                            </div>
+                            <span class="self-start sm:self-center text-xs font-bold bg-brand-yellow/20 text-brand-yellow border border-brand-yellow/40 px-3 py-1 rounded-full shrink-0">${filteredItems.length} Items</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                        ${cardsHTML}
+                    </div>
+                `;
+
+                container.appendChild(section);
+            });
+
+            if (!hasResults) {
+                container.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-2xl border border-amber-200">
+                        <i data-lucide="search-x" class="w-12 h-12 text-amber-400 mx-auto mb-3"></i>
+                        <h3 class="text-lg font-bold text-zinc-800">No matching dishes found</h3>
+                        <p class="text-sm text-slate-500 mt-1">Try searching for something else or view all items.</p>
+                        <button onclick="resetFilters()" class="mt-4 bg-brand-yellow text-zinc-900 font-bold text-xs px-5 py-2.5 rounded-full shadow">Show All Menu</button>
+                    </div>
+                `;
+            }
+
+            refreshIcons();
+        }
+
+        function filterCategory(catId) {
+            currentFilter = catId;
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                btn.className = 'cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-700 hover:bg-slate-200 shadow-sm shrink-0 transition';
+            });
+            event.target.className = 'cat-pill px-5 py-2.5 rounded-full text-sm font-semibold bg-slate-900 text-white shadow-sm shrink-0 transition';
+            renderMenu();
+        }
+
+        function resetFilters() {
+            currentFilter = 'all';
+            searchQuery = '';
+            const searchInput = document.getElementById('menu-search');
+            if (searchInput) searchInput.value = '';
+            renderMenu();
+        }
+
+        function handleSearch(query) {
+            searchQuery = query;
+            renderMenu();
+        }
+
+        function handleItemAction(catId
